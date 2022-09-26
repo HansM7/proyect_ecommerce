@@ -67,24 +67,23 @@
                           </figure>
                         </td>
                         <td>
-                          <!-- col.// -->
                           <div class="col">
                             <div class="input-group input-spinner">
                               <div class="input-group-prepend">
-                                <button class="btn btn-light" type="button" id="button-plus" onclick="add_item('<%= dataCart.cart.products[index].id %>')"> <i class="fa fa-minus"></i> </button>
+                                <a class="btn btn-light" type="button" id="button-plus" href="/delete_product/<%= dataCart.cart.products[index].id %>" > <i class="fa fa-minus"></i> </a>
                               </div>
-                              <input type="text" class="form-control" value="1">
+                              <input type="text" class="form-control" value="<%= dataCart.cart.products[index].ammount %>">
                               <div class="input-group-append">
-                                <button class="btn btn-light" type="button" id="button-minus" onclick="remove_item('<%= dataCart.cart.products[index].id %>')"> <i class="fa fa-plus"></i> </button>
+                                <a class="btn btn-light" type="button" id="button-minus" href="/add_cart/<%= dataCart.cart.products[index].id %>"> <i class="fa fa-plus"></i> </a>
                               </div>
-                            </div> <!-- input-group.// -->
-                          </div> <!-- col.// -->
+                            </div> 
+                          </div> 
                         </td>
                         <td>
                           <div class="price-wrap">
-                            <var class="price">$1156.00</var>
+                            <var class="price">$<%= dataCart.cart.products[index].price*dataCart.cart.products[index].ammount %></var>
                             <small class="text-muted"> $<%= dataCart.cart.products[index].price %> </small>
-                          </div> <!-- price-wrap .// -->
+                          </div> 
                         </td>
                         <td class="text-right">
                           <a href="remove_item/<%= dataCart.cart.products[index].id %>" class="btn btn-danger"> Remove</a>

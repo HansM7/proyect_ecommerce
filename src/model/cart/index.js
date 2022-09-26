@@ -37,7 +37,7 @@ export default class Cart{
     async getOne(id){
         try {
             await instanceConnection()
-            const cart = await newSchema.find({id})
+            const cart = await newSchema.findOne({id})
             return cart
         } catch (error) {
             
@@ -57,6 +57,7 @@ export default class Cart{
     
     async addToCart(data){
         try {
+            // Condicion, si existe, agregar la cantidad
             await instanceConnection()
 
             const id = await this.getCartActive(data.idUser)
@@ -72,12 +73,34 @@ export default class Cart{
                 description: product.description
             }
 
-            await newSchema.updateOne({id},{$addToSet:{"products":newProduct}})
-            await modelProduct.reduceStock(id,1)
+            const cart = await this.getOne(id)
 
-            return {
-                state:"success",
-                message:"registered successfully"
+            const products=cart.products
+
+            let iteration=0
+
+            products.find(product => {
+                if (product.id === data.idProduct) {
+                    iteration++
+                }
+            })
+
+            if (iteration>0) {
+                await newSchema.updateOne({$and:[{id},{"products.id":data.idProduct}]},{$inc:{"products.$.ammount":+1}})
+                await modelProduct.reduceStock(data.idProduct,1)
+                return {
+                    channel:1,
+                    state:"success",
+                    message:"registered successfully"
+                }
+            }else{
+                await newSchema.updateOne({id},{$addToSet:{"products":newProduct}})
+                await modelProduct.reduceStock(data.idProduct,1)
+                return {
+                    channel:2,
+                    state:"success",
+                    message:"registered successfully"
+                }
             }
 
         } catch (error) {
@@ -164,7 +187,53 @@ export default class Cart{
         try {
             await instanceConnection()
             const id = await this.getCartActive(idUser)
+            const cart = await this.getOne(id)
+            const productsCart=cart.products
+            const product = productsCart.find(i=>{
+                if (i.id===idProduct) {
+                    return i
+                }
+            })
+            const ammount = product.ammount
+            await modelProduct.increaseStock(idProduct,ammount)
+
             await newSchema.updateOne({id},{$pull:{products:{id:idProduct}}})
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async deleteOneProductCartController(data){
+        try {
+            await instanceConnection()
+
+            const id = await this.getCartActive(data.idUser)
+
+            // Bucle para detectar si tiene 0 o no
+
+            const dataProduct = await newSchema.findOne({$and:[{id},{"products.id":data.idProduct}]})
+
+            const productAmmount=dataProduct.products[0].ammount
+
+            if (productAmmount>0) {
+                await newSchema.updateOne({$and:[{id},{"products.id":data.idProduct}]},{$inc:{"products.$.ammount":-1}})
+                await modelProduct.increaseStock(data.idProduct,1)
+                return {
+                    channel:1,
+                    state:"success",
+                    message:"registered successfully"
+                }
+            }else{
+                await this.removeItem(data.idProduct,data.idUser)
+                return {
+                    channel:1,
+                    state:"success",
+                    message:"registered successfully"
+                }
+            }
+
+                
+
         } catch (error) {
             console.log(error)
         }

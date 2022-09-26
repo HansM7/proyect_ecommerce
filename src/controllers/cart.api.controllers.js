@@ -17,7 +17,11 @@ export const createOneController =async(req,res)=>{
 
     if(active.level===1){
         const register = await modelCart.addToCart(data)
-        res.redirect('/store')
+        if (register.channel ===1) {
+            res.redirect('/cart')
+        }else{
+            res.redirect('/store')
+        }
 
     }else if(active.level===0){
         const register = await modelCart.createCartAndAddToCart(data)
@@ -39,18 +43,33 @@ export const getCartController = async (req,res)=>{
     }
 }
 
-export const addIemController = async (req,res)=>{
+
+export const removeItemController = async (req,res)=>{
+    const idProduct = req.params.id
+    if (req.user) {
+        await modelCart.removeItem(idProduct,req.user.id)
+        res.redirect('/cart')
+    }else{
+        res.redirect('/error_add_login')
+    }
+}
+
+export const addOneProductCartController = async (req,res)=>{
     if (req.user) {
         
     }else{
         res.redirect('/error_add_login')
     }
 }
-
-export const removeItemController = async (req,res)=>{
+export const deleteOneProductCartController = async (req,res)=>{
+    const idUser=req.user.id
     const idProduct = req.params.id
+    const data={
+        idUser,
+        idProduct
+    }
     if (req.user) {
-        await modelCart.removeItem(idProduct,req.user.id)
+        const deleted = await modelCart.deleteOneProductCartController(data)
         res.redirect('/cart')
     }else{
         res.redirect('/error_add_login')
