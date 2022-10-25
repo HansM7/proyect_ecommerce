@@ -1,7 +1,7 @@
-import {instanceConnection} from "../../config/database/index.js"
-import {cartSchema} from "./cart.schema.js"
+import {instanceConnection} from "../DAO/database/index.js"
+import {cartSchema} from "../model/cart/cart.schema.js"
 // import User from "../user/index.js"
-import Product from "../product/index.js"
+import Product from "../service/product.service.js"
 
 import mongoose from "mongoose"
 

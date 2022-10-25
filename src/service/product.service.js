@@ -1,5 +1,5 @@
-import {instanceConnection} from "../../config/database/index.js"
-import {productSchema} from "./product.schema.js"
+import {instanceConnection} from "../DAO/database/index.js"
+import {productSchema} from "../model/product/product.schema.js"
 import mongoose from "mongoose"
 
 const newSchema=mongoose.model('products',productSchema)

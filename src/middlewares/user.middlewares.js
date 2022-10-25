@@ -1,6 +1,6 @@
 import bcrypt from 'bcrypt'
 import multer from 'multer'
-import User from '../model/user/index.js'
+import User from '../service/user.service.js'
 
 // -----------------------------------------------------------------------
 const modelUser=new User()

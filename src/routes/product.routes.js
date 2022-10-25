@@ -16,7 +16,7 @@ router.get('/store',getManyController)
 router.get('/api/producto/:id',getOneController )
 
 router.post('/product', 
-// isAdmin , 
+isAdmin , 
 createOneController)
 
 router.put('/api/producto/:id', editOneController)

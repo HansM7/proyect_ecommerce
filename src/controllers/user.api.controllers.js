@@ -1,4 +1,4 @@
-import User from "../model/user/index.js"
+import User from "../service/user.service.js"
 import bcrypt from "bcrypt"
 
 const modelUser = new User()

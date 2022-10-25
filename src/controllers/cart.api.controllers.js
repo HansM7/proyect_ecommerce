@@ -1,6 +1,6 @@
 
-import Cart from "../model/cart/index.js"
-import Product from "../model/product/index.js"
+import Cart from "../service/cart.service.js"
+import Product from "../service/product.service.js"
 const modelCart = new Cart()
 const modelProduct = new Product()
 

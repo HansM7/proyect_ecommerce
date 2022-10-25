@@ -1,5 +1,5 @@
 import { createTransport } from 'nodemailer'
-import User from '../model/user/index.js'
+import User from '../service/user.service.js'
 const modelUser= new User()
 
 export const sendCodeVerification = async (req,res,next)=>{

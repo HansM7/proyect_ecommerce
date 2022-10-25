@@ -1,5 +1,5 @@
-import {instanceConnection} from "../../config/database/index.js"
-import {userSchema} from "./user.schema.js"
+import {instanceConnection} from "../DAO/database/index.js"
+import {userSchema} from "../model/user/user.schema.js"
 import mongoose from "mongoose"
 
 const newSchema=mongoose.model('users',userSchema)

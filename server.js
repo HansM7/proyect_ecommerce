@@ -12,9 +12,9 @@ import routerUser from './src/routes/user.routes.js'
 import routerCart from './src/routes/cart.routes.js'
 
 // IMPORTANDO MODELOS
-import Product from './src/model/product/index.js'
-import User from './src/model/user/index.js'
-import Cart from './src/model/cart/index.js'
+import Product from './src/service/product.service.js'
+import User from './src/service/user.service.js'
+import Cart from './src/service/cart.service.js'
 
 
 const app = express()
@@ -133,8 +133,7 @@ app.use('/',routerUser)
 app.use('/', routerCart)
 
 
-const port = process.env.PORT || 3000
-const myServer=app.listen(port)
+export default app
 
 // const io=new Server(myServer)
 
