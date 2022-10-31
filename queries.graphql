@@ -1,0 +1,12 @@
+query {
+    getProducts {
+        id
+        title
+        tags
+        description
+        price
+        stock
+        thumbnail
+        timestamp
+    }
+}

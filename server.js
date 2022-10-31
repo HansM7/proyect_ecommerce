@@ -17,6 +17,12 @@ import User from './src/service/user.service.js'
 import Cart from './src/service/cart.service.js'
 
 
+import {schema} from './setting-graphql.js'
+import { getProducts } from './setting-graphql.js'
+import { graphqlHTTP } from 'express-graphql'
+
+
+
 const app = express()
 const modelProduct=new Product()
 const modelUser=new User()
@@ -66,6 +72,8 @@ passport.deserializeUser(async(id,done)=>{
 // CONFIGURACION DEL PASSPORT
 app.use(passport.initialize())
 app.use(passport.session())
+
+// CONFIGURANDO GRAPHQL
 
 
 
@@ -118,8 +126,6 @@ app.get('/signin', async (req,res) => {
     }
     
 }) 
-
-
 app.get('/error_add_login', async (req,res) => {
     const data={
         login:false
@@ -127,11 +133,22 @@ app.get('/error_add_login', async (req,res) => {
     res.render('error_add_login.ejs',data)
 }) 
 
+app.get('/test_graph', async (req,res)=>{
+    res.render('test_graphql.ejs')
+})
+
 
 app.use('/', routerProduct)
 app.use('/',routerUser)
 app.use('/', routerCart)
 
+app.use('/graphql',graphqlHTTP({
+    schema:schema,
+    rootValue: {
+        getProducts
+    },
+    graphiql:true
+}))
 
 export default app
 
