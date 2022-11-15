@@ -146,5 +146,31 @@ export default class Product{
         }
     }
 
+    async getForCategory(category) {
+        try {
+            await instanceConnection()
+            const products=await newSchema.find({})
+            const dataSetForCategory=[]
+
+            for(let i=0; i<products.length;i++){
+                let contCategory=0
+                let allTags =products[i].tags
+                for( let x in allTags){
+                    if( allTags[x] === category){
+                        contCategory+=1
+                    }
+                }
+                if(contCategory>0){
+                    dataSetForCategory.push(products[i])
+                }
+
+            }
+            return dataSetForCategory
+
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
 
 }

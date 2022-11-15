@@ -72,3 +72,4 @@ export const redirectCaseSession = (req, res, next)=>{
         res.redirect("/")
     }
 }
+

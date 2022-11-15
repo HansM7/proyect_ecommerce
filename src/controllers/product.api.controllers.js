@@ -54,3 +54,35 @@ export const deleteOneController = async (req,res)=>{
     const deleted = await modelProduct.deleteOne(id)
     res.json(deleted)
 }
+
+export const getForCategoryController = async (req,res)=>{
+    if (req.user) {
+        const category = req.params.category
+
+        const dataProduct = await modelProduct.getForCategory(category)
+        const dataCart = await modelCart.getCartForUser(req.user.id)
+        const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
+        const data= {
+            dataVerify,
+            login:true,
+            user:req.user,
+            dataCart
+        }
+        res.render('store.ejs',data)
+    }else{
+        const category = req.params.category
+
+        const dataProduct = await modelProduct.getForCategory(category)
+        const dataCart = {}
+        const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
+
+        const data= {
+            dataVerify,
+            login:false,
+            user:{},
+            dataCart:{}
+        }
+        res.render('store.ejs',data)
+        // res.json(dataProduct)
+    }
+}

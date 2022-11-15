@@ -17,9 +17,10 @@ import User from './src/service/user.service.js'
 import Cart from './src/service/cart.service.js'
 
 
-import {schema} from './setting-graphql.js'
-import { getProducts } from './setting-graphql.js'
-import { graphqlHTTP } from 'express-graphql'
+
+// import {schema} from './setting-graphql.js'
+// import { getProducts } from './setting-graphql.js'
+// import { graphqlHTTP } from 'express-graphql'
 
 
 
@@ -133,22 +134,21 @@ app.get('/error_add_login', async (req,res) => {
     res.render('error_add_login.ejs',data)
 }) 
 
-app.get('/test_graph', async (req,res)=>{
-    res.render('test_graphql.ejs')
+app.get('/chat', async (req,res) => {
+    res.render('chat.ejs')
 })
+
 
 
 app.use('/', routerProduct)
 app.use('/',routerUser)
 app.use('/', routerCart)
 
-app.use('/graphql',graphqlHTTP({
-    schema:schema,
-    rootValue: {
-        getProducts
-    },
-    graphiql:true
-}))
+app.get('/*', async (req,res)=>{
+    res.status(404).send("Error 404")
+})
+
+
 
 export default app
 

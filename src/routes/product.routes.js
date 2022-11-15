@@ -4,7 +4,8 @@ import {
     createOneController, 
     getOneController, 
     editOneController, 
-    deleteOneController
+    deleteOneController,
+    getForCategoryController
     } 
     from "../controllers/product.api.controllers.js"
 import { isAdmin } from "../middlewares/product.middlewares.js"
@@ -12,6 +13,8 @@ import { isAdmin } from "../middlewares/product.middlewares.js"
 const router = express.Router()
 
 router.get('/store',getManyController)
+router.get('/store/:category', getForCategoryController)
+
 
 router.get('/api/producto/:id',getOneController )
 

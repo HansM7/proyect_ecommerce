@@ -11,7 +11,7 @@ router.get('/remove_item/:id', isLogin,  removeItemController) //Te elimina el i
 
 
 // router.get('/add_product/:id', isLogin,  addProductController) 
-router.get('/delete_product/:id', isLogin,  deleteOneProductCartController) 
+router.delete('/delete_product/:id', isLogin,  deleteOneProductCartController) 
 
 
 export default router 
