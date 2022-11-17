@@ -22,8 +22,8 @@ export default class Chat{
     async getMessages(idUser){
         try {
             await instanceConnection()
-            const messagesobj = await newSchema.find({"user_id":id})
-            const messages = messagesobj.message
+            const messagesobj = await newSchema.find({"user_id":idUser})
+            const messages = messagesobj[0].message
             return messages
         } catch (error) {
             console.log(error)
@@ -51,16 +51,10 @@ export default class Chat{
                 type_user:"usuario",
                 time_stamp: Date.now()
             }
-        
-            const data ={
-                id,
-                user_id,
-                message
-            }
 
-            await newSchema.updateOne({id},{$addToSet:{"message":data}})
+            await newSchema.updateOne({"user_id":id},{$addToSet:{"message":message}})
         } catch (error) {
-            
+            console.log(error)
         }
     }
 
@@ -72,30 +66,43 @@ export default class Chat{
                 await this.sendMessage(user,text)
                 return {
                     state:"success",
-                    message:"Registro existoso"
+                    message:"Registro existoso 1"
                 }
             }else{
                 const id = await this.createId()
                 const user_id=user.id
-                const message={
-                    text,
-                    type_user:"usuario",
-                    time_stamp: Date.now()
-                }
-            
-                const data ={
-                    id,
-                    user_id,
-                    message
-                }
+                const message={ text, type_user:"usuario", time_stamp: Date.now() }
+                const data ={ id, user_id, message }
 
                 await newSchema.create(data)
+
                 return {
                     state:"success",
-                    message:"Registro existoso"
+                    message:"Registro existoso 2"
                 }
             }
             
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async resMessageAdminInstant(id){
+        try {
+            await instanceConnection()
+            
+            const res = await this.existsMessage(id)
+            const messageObj=res[0].message
+            if(messageObj.length<=1){
+                const messageAdmin="Hola, gracias por escribirnos, dentro de un momento uno de nuestros asesores tomará su pedido."
+                const message={
+                    text:messageAdmin,
+                    type_user:"administrador",
+                    time_stamp: Date.now()
+                }
+
+                await newSchema.updateOne({"user_id":id},{$addToSet:{"message":message}})
+            }
         } catch (error) {
             console.log(error)
         }

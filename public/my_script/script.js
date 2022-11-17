@@ -1,17 +1,44 @@
 const socket = io.connect()
 
-socket.on('captureMessages', (data) => {
+socket.on('applyMessage', (data) => {
     console.log(data)
+    getMessages()
+})
+
+socket.on('resMessage', (data) => {
     renderMessages(data)
 })
 
-const sendMessage=()=>{
+const getMessages = () =>{
+    const idUser = document.getElementById('secret').value
+    socket.emit('captureMessage',{idUser})
+}
+
+const sendMessage= async()=>{
     const message=document.getElementById('val_text').value
-    axios.post('/chat',{message})
-    .then((result) => {
-        console.log(result);
-        socket.emit('addMessage',"Se registro un mensaje")
-    })
+    const idUser = document.getElementById('secret').value
+    const data = {message,idUser}
+
+    if (message!=undefined) {
+        await axios.post('/chat',data).then((response)=>{
+            socket.emit('addMessage',{message,idUser})
+            document.getElementById('val_text').value=""
+            setTimeout(()=>{
+                socket.emit('resAdminInstant',{message,idUser})
+            },3000)
+        })  
+        .catch((error)=>{
+            console.log(error)
+        })
+        
+        
+
+        
+    }else{
+        console.log("errorrrrr")
+    }
+
+    
 }
 
 const renderMessages=(data)=>{
@@ -39,3 +66,12 @@ const renderMessages=(data)=>{
     document.getElementById("div_content").innerHTML=newHtml
     
 }
+
+// document.addEventListener("DOMContentLoaded", ()=> {
+    
+
+//     socket.on('captureMessages', (idUser) => {
+//         renderMessages(data)
+//     })
+    
+// });
