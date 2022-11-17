@@ -1,19 +1,35 @@
-import { Chat } from "../service/chat.service.js"
+import "dotenv/config"
+import  Chat  from "../service/chat.service.js"
+import fetch from "node-fetch"
 const newChat = new Chat()
 
 export const sock = (io) => {
 
     io.on('connection', (socket) => {
 
-        // AL RECARGAR LA PAGINA NO CARGAN TODOS LOS DATOS 
-        const sendMessage = async (req,res)=>{
-            // const products = await newProduct.getAll() no me funciona la llamada al modelo, no e recupera los datos
-            // const messages = await newChat.getMessages(req.user)
-            // const newProducts = await products.json()
-            const user = "req.user"
-            socket.emit("prueba", user)
+        // AL INGRESAR QUE SE CARGUEN TODOS LOS MENSAJES FETCH
+
+        const sendMessage = async ()=>{
+            const messages = await fetch(process.env.API_CHAT)
+            socket.emit("captureMessages", messages)
+            console.log(messages)
         }
         sendMessage()
+
+
+        socket.on("addMessage", async(data)=>{
+            console.log(data)
+            sendMessage()
+        })
+
+
+
+
+
+
+
+
+
 
         // // AL RECARGAR LA PAGINA NO CARGAN TODOS LOS DATOS 
         // const sendMessages = async()=>{

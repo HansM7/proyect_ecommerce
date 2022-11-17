@@ -39,6 +39,8 @@
 
     <body>
 
+        <%- include('includes/header.ejs',{login, user}) %> 
+
     <!-- ========================= SECTION PAGETOP ========================= -->
     <section class="section-pagetop bg">
         <div class="container">
@@ -55,23 +57,15 @@
             <h4 class="card-title">Centro de atención</h4>
             </header>
             
-            <div style="min-height: 550px;" class="d-flex flex-column justify-content-between">
-                <div style="overflow-y: scroll ; max-height: 500px;">
-                    <div>
-                        <div class="mb-2">
-                            <span class="span_email text-primary font-weight-bold">melchorhans@gmail.com</span>
-                            <p class="p_text">Hola tengo una duda adawdwadwa</p>
-                        </div>
-                    </div>
-                    
-                    <hr>
+            <div style="min-height: 550px;" class="d-flex flex-column justify-content-between" id="div_content">
+                
                     
                     
-                </div>
+                    
                 <br>
                 <div class="" >
                     <div class=" d-flex flex-row ">
-                        <input class="form-control" type="text" placeholder="Escriba su consulta" name="val_text">
+                        <input class="form-control" type="text" placeholder="Escriba su consulta" id="val_text">
                         &nbsp;
                         <button class="btn btn-outline-primary" onclick="sendMessage()">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-send" viewBox="0 0 16 16">

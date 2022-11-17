@@ -4,7 +4,7 @@ import {chatSchema} from "../model/chat/chat.schema.js"
 
 const newSchema=mongoose.model('chats',chatSchema)
 
-export class Chat{
+export default class Chat{
 
     async createId(){
         try {
@@ -22,7 +22,8 @@ export class Chat{
     async getMessages(idUser){
         try {
             await instanceConnection()
-            const messages = await newSchema.find({"user_id":id})
+            const messagesobj = await newSchema.find({"user_id":id})
+            const messages = messagesobj.message
             return messages
         } catch (error) {
             console.log(error)
@@ -43,9 +44,8 @@ export class Chat{
     async sendMessage(user, text){
         try {
             await instanceConnection()
-            const id = await this.createId()
             
-            const user_id=user.id
+            const id=user.id
             const message={
                 text,
                 type_user:"usuario",
@@ -58,7 +58,7 @@ export class Chat{
                 message
             }
 
-            // await newSchema.create(data) Esta por verse
+            await newSchema.updateOne({id},{$addToSet:{"message":data}})
         } catch (error) {
             
         }
@@ -68,7 +68,7 @@ export class Chat{
         try {
             await instanceConnection()
             const res = await this.existsMessage(user.id)
-            if(res){
+            if(res.length>0){
                 await this.sendMessage(user,text)
                 return {
                     state:"success",
@@ -90,10 +90,14 @@ export class Chat{
                 }
 
                 await newSchema.create(data)
+                return {
+                    state:"success",
+                    message:"Registro existoso"
+                }
             }
             
         } catch (error) {
-            
+            console.log(error)
         }
     }
 }

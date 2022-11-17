@@ -10,6 +10,7 @@ import {Strategy}  from 'passport-local'
 import routerProduct from './src/routes/product.routes.js'
 import routerUser from './src/routes/user.routes.js'
 import routerCart from './src/routes/cart.routes.js'
+import routerChat from "./src/routes/chat.routes.js"
 
 // IMPORTANDO MODELOS
 import Product from './src/service/product.service.js'
@@ -134,15 +135,13 @@ app.get('/error_add_login', async (req,res) => {
     res.render('error_add_login.ejs',data)
 }) 
 
-app.get('/chat', async (req,res) => {
-    res.render('chat.ejs')
-})
 
 
 
 app.use('/', routerProduct)
 app.use('/',routerUser)
 app.use('/', routerCart)
+app.use('/', routerChat)
 
 app.get('/*', async (req,res)=>{
     res.status(404).send("Error 404")
