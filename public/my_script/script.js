@@ -31,9 +31,6 @@ const sendMessage= async()=>{
             console.log(error)
         })
         
-        
-
-        
     }else{
         console.log("errorrrrr")
     }
@@ -67,11 +64,13 @@ const renderMessages=(data)=>{
     
 }
 
+
 // document.addEventListener("DOMContentLoaded", ()=> {
     
 
-//     socket.on('captureMessages', (idUser) => {
-//         renderMessages(data)
+//     document.getElementById("form_search").on('submit',(e)=>{
+//         e.preventDefault()
+//         console.log("Click")
 //     })
     
 // });

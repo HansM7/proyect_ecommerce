@@ -82,8 +82,11 @@ app.use(passport.session())
 
 app.get('/', async (req,res) => {
     if (req.user) {
-        const dataProduct = await modelProduct.getMany()
-        const dataCart = await modelCart.getCartForUser(req.user.id)
+        let dataProduct = await modelProduct.getMany()
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
         const data= {
             dataProduct,
             login:true,
@@ -134,6 +137,10 @@ app.get('/error_add_login', async (req,res) => {
     }
     res.render('error_add_login.ejs',data)
 }) 
+
+app.get("/error_meme",(req,res)=>{
+    res.render("error_meme.ejs")
+})
 
 
 

@@ -28,6 +28,7 @@
   <!-- custom javascript -->
   <script src="/js/script.js" type="text/javascript"></script>
 
+
   <script type="text/javascript">
     /// some script
 
@@ -109,7 +110,7 @@
                   </div> <!-- img-wrap.// -->
                   <figcaption class="info-wrap">
                     <div class="fix-height">
-                      <a href="./product-detail.html" class="title"><%= dataVerify[i].product.title %></a>
+                      <a href="/product/<%= dataVerify[i].product.id %>" class="title"><%= dataVerify[i].product.title %></a>
                       <div class="price-wrap mt-2">
                         <span class="price">$<%= dataVerify[i].product.price %></span>
                       </div> <!-- price-wrap.// -->

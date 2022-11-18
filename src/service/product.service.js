@@ -49,7 +49,7 @@ export default class Product{
     async getOne(id){
         try {
             await instanceConnection()
-            const product = await newSchema.findOne({id})
+            const product = await newSchema.find({id})
             return product
         } catch (error) {
             
@@ -167,6 +167,15 @@ export default class Product{
             }
             return dataSetForCategory
 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async isInCart(dataProduct, dataCart){
+        try {
+            console.log(dataProduct)
+            console.log(dataCart)
         } catch (error) {
             console.log(error)
         }

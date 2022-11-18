@@ -31,11 +31,16 @@ export const createOneController =async(req,res)=>{
 
 export const getCartController = async (req,res)=>{
     if (req.user) {
-        const dataCart = await modelCart.getCartForUser(req.user.id)
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
+        const ammount = await modelCart.sumCartAmmount(dataCart)
         const data= {
             login:true,
             user:req.user,
-            dataCart
+            dataCart,
+            ammount
         }
         res.render('cart.ejs',data)
     }else{
@@ -74,4 +79,28 @@ export const deleteOneProductCartController = async (req,res)=>{
     }else{
         res.redirect('/error_add_login')
     }
+}
+
+export const getOrderController = async(req, res) =>{
+    if (req.user) {
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
+        const ammount = await modelCart.sumCartAmmount(dataCart)
+        const data= {
+            login:true,
+            user:req.user,
+            dataCart,
+            ammount
+        }
+        res.render('order_detail.ejs',data)
+    }else{
+        res.redirect('/error_add_login')
+    }
+}
+
+
+export const checkoutOrderController = async(req, res) => {
+
 }

@@ -6,7 +6,10 @@ const modelCart = new Cart()
 
 export const chatController=async(req,res)=>{
     if(req.user){
-        const dataCart = await modelCart.getCartForUser(req.user.id)
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
         const data= {
             login:true,
             user:req.user,

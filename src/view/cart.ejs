@@ -62,7 +62,7 @@
                           <figure class="itemside align-items-center">
                             <div class="aside"><img src="<%= dataCart.cart.products[index].thumbnail %>" class="img-sm"></div>
                             <figcaption class="info">
-                              <a href="#" class="title text-dark"><%= dataCart.cart.products[index].title %> </a>
+                              <a href="/product/<%= dataCart.cart.products[index].id %>" class="title text-dark"><%= dataCart.cart.products[index].title %> </a>
                             </figcaption>
                           </figure>
                         </td>
@@ -101,23 +101,23 @@
           <div class="card">
             <div class="card-body">
               <dl class="dlist-align">
-                <dt>Total price:</dt>
-                <dd class="text-right">$69.97</dd>
+                <dt>Precio total:</dt>
+                <dd class="text-right">$<%= ammount %></dd>
               </dl>
               <dl class="dlist-align">
-                <dt>Tax:</dt>
-                <dd class="text-right"> $10.00</dd>
+                <dt>Descuento:</dt>
+                <dd class="text-right"> $0</dd>
               </dl>
               <dl class="dlist-align">
                 <dt>Total:</dt>
-                <dd class="text-right text-dark b"><strong>$59.97</strong></dd>
+                <dd class="text-right text-dark b"><strong>$<%= ammount %></strong></dd>
               </dl>
               <hr>
               <p class="text-center mb-3">
-                <img src="./images/misc/payments.png" height="26">
+                <img src="https://cdn-icons-png.flaticon.com/512/3281/3281312.png" height="50">
               </p>
-              <a href="./place-order.html" class="btn btn-primary btn-block"> Checkout </a>
-              <a href="./store.html" class="btn btn-light btn-block">Continue Shopping</a>
+              <a href="/order_detail" class="btn btn-primary btn-block"> Verificar compra </a>
+              <a href="/store" class="btn btn-light btn-block">Continuar comprando</a>
             </div> <!-- card-body.// -->
           </div> <!-- card.// -->
 

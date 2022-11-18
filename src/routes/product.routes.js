@@ -16,7 +16,7 @@ router.get('/store',getManyController)
 router.get('/store/:category', getForCategoryController)
 
 
-router.get('/api/producto/:id',getOneController )
+router.get('/product/:id',getOneController )
 
 router.post('/product', 
 isAdmin , 

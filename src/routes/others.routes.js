@@ -23,4 +23,8 @@ router.get('/', async (req,res) => {
     
 }) 
 
+router.get("/error_meme", ()=>{
+    res.render("error_meme.ejs")
+})
+
 export default router

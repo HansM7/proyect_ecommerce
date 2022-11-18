@@ -7,7 +7,10 @@ const modelCart = new Cart()
 export const getManyController = async(req,res)=>{
     if (req.user) {
         const dataProduct = await modelProduct.getMany()
-        const dataCart = await modelCart.getCartForUser(req.user.id)
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
         const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
         const data= {
             dataVerify,
@@ -32,8 +35,33 @@ export const getManyController = async(req,res)=>{
 }
 export const getOneController = async(req,res)=>{
     const id = req.params.id
-    const data = await modelProduct.getOne(id)
-    res.json(data)
+    const dataProduct = await modelProduct.getOne(id)
+
+    if (req.user) {
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart={}
+        }
+        const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
+        const data= {
+            dataVerify,
+            login:true,
+            user:req.user,
+            dataCart
+        }
+        res.render('product_detail.ejs',data)
+    }else{
+        const dataCart = {}
+        const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
+        const data= {
+            dataVerify,
+            login:false,
+            user:{},
+            dataCart:{}
+        }
+        res.render('product_detail.ejs',data)
+    }
+
 }
 
 export const createOneController = async (req,res)=>{
@@ -60,7 +88,10 @@ export const getForCategoryController = async (req,res)=>{
         const category = req.params.category
 
         const dataProduct = await modelProduct.getForCategory(category)
-        const dataCart = await modelCart.getCartForUser(req.user.id)
+        let dataCart = await modelCart.getCartForUser(req.user.id)
+        if(!dataCart){
+            dataCart=[]
+        }
         const dataVerify=await modelProduct.compareProductCart(dataProduct, dataCart)
         const data= {
             dataVerify,

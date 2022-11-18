@@ -60,9 +60,12 @@ export default class Cart{
             // Condicion, si existe, agregar la cantidad
             await instanceConnection()
 
+            
+
             const id = await this.getCartActive(data.idUser)
             
-            const product = await modelProduct.getOne(data.idProduct)
+            const productArr = await modelProduct.getOne(data.idProduct)
+            const product = productArr[0]
 
             const newProduct={
                 id:product.id,
@@ -116,7 +119,8 @@ export default class Cart{
             const id = data.idProduct
             const user_id=data.idUser
 
-            const product = await modelProduct.getOne(id)
+            const productArr = await modelProduct.getOne(id)
+            const product = productArr[0]
 
             const newProduct={
                 id,
@@ -234,6 +238,19 @@ export default class Cart{
 
                 
 
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async sumCartAmmount(dataCart){
+        try {
+            const products = dataCart.cart.products
+            let ammount = 0
+            for (let i = 0; i < products.length; i++){
+                ammount = ammount + products[i].price
+            }
+            return ammount
         } catch (error) {
             console.log(error)
         }
