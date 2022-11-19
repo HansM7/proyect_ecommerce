@@ -151,16 +151,10 @@ export default class Cart{
     async getForActive(idUser){
         try {
             await instanceConnection()
-            const userCart= await newSchema.findOne({idUser})
+            const userCart= await newSchema.findOne({user_id:idUser,state: 'ACTIVE'})
             if (userCart) {
-                if(userCart.state==="ACTIVE"){
-                    return {
-                        level:1
-                    }
-                }else{
-                    return {
-                        level:0
-                    }
+                return {
+                    level:1
                 }
             }else{
                 return {
@@ -177,11 +171,22 @@ export default class Cart{
         try {
             await instanceConnection()
             const cart = await newSchema.findOne({user_id:idUser,state: 'ACTIVE'})
-            const data ={
-                cart,
-                length_products:cart.products.length
+            if(!cart){
+                const data ={
+                    cart,
+                    length_products:0
+                }
+                return data
+            }else{
+                const data ={
+                    cart,
+                    length_products:cart.products.length
+                }
+                return data
             }
-            return data
+            
+
+            
         } catch (error) {
             console.log(error)
         }
@@ -245,12 +250,42 @@ export default class Cart{
 
     async sumCartAmmount(dataCart){
         try {
-            const products = dataCart.cart.products
             let ammount = 0
-            for (let i = 0; i < products.length; i++){
-                ammount = ammount + products[i].price
+
+            if (dataCart.length_products>0){
+                const products = dataCart.cart.products
+                for (let i = 0; i < products.length; i++){
+                    ammount = ammount + products[i].price*products[i].ammount
+                }
+                return ammount
+            }else{
+                return ammount
             }
-            return ammount
+            
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async templateOrder(products){
+        try {
+            let template=""
+
+            for (let index = 0; index < products.length; index++) {
+                const product = products[index]
+                template = template+`<tr><td>${product.title}</td><td>${product.ammount}</td><td>${product.price}</td><td>${product.ammount*product.price}</td></tr>`
+            }
+
+            return template
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+    async confirmOrder(id){
+        try {
+            await instanceConnection()
+            await newSchema.updateOne({id},{state:"CONFIRMED"})
         } catch (error) {
             console.log(error)
         }

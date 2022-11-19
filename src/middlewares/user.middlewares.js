@@ -56,7 +56,6 @@ export const verifyStateUser = async(req,res,next)=>{
                 message_confirm:""
             }
             res.render('confirm_account.ejs',data)
-            next()
         }else{
             res.send("Su cuenta fue confirmada")
         }

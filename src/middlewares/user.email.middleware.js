@@ -9,7 +9,7 @@ export const sendCodeVerification = async (req,res,next)=>{
         const code_verification = userBd.code_verify
         const MAIL_ORIGIN="melchorhans@gmail.com"
         const TEST_MAIL=email
-        const PASS_MAIL="tywsriibpkumtwdq"
+        const PASS_MAIL="ypmfzqekggueitcp"
 
         const transporter=createTransport({
             service:"gmail",

@@ -7,9 +7,7 @@ import { encryptPassword, verifyPassword,upload, verifyStateUser, redirectCaseSe
 
 const router = express.Router()
 
-router.get('/confirm_account', redirectCaseSession , verifyStateUser, (req,res)=>{
-    res.render('confirm_account.ejs',)
-})
+router.get('/confirm_account', redirectCaseSession , verifyStateUser)
 
 router.get('/logout',(req, res) => {
     req.session.destroy()
